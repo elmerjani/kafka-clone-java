@@ -20,6 +20,7 @@ public class Main {
       ByteBuffer inputBuffer = ByteBuffer.wrap(input.readAllBytes());
       OutputStream output = clientSocket.getOutputStream();
       ByteBuffer outputBuffer = ByteBuffer.allocate(8);
+      outputBuffer.putInt(0,0);
       outputBuffer.putInt(4,inputBuffer.getInt(8));
       output.write(outputBuffer.array());
       
