@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class Main {
   public static void main(String[] args){
@@ -21,18 +22,10 @@ public class Main {
       // Wait for connection from client.
       clientSocket = serverSocket.accept();
       OutputStream out = clientSocket.getOutputStream();
-      byte[] message = new byte[8];
-            // message_size (4 bytes)
-            message[0] = 0x00;
-            message[1] = 0x00;
-            message[2] = 0x00;
-            message[3] = 0x00; // 0 (big-endian)
-            // correlation_id (4 bytes)
-            message[4] = 0x00;
-            message[5] = 0x00;
-            message[6] = 0x00;
-            message[7] = 0x07;
-      out.write(message);
+      ByteBuffer buffer = ByteBuffer.allocate(8);
+      buffer.putInt(0);
+      buffer.putInt(7);
+      out.write(buffer.array());
       
     } catch (IOException e) {
       System.out.println("IOException: " + e.getMessage());
